@@ -8,6 +8,7 @@ import app.cmce.Moviesapi.entity.Movie;
 import app.cmce.Moviesapi.repository.MoviesRepository;
 import app.cmce.Moviesapi.service.IMovieService;
 
+@Service
 public class MovieService implements IMovieService{
 	
 	@Autowired
