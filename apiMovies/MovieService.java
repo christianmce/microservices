@@ -16,16 +16,16 @@ public class MovieService implements IMovieService{
 		return repMovie.findAll();
 	}
 	
-	public void insertarGenero(Movie obj) {
+	public void insertarPelicula(Movie obj) {
 		repMovie.save(obj);  //SpringDataJPA
 	}
 	
-	public void actualizarGenero(Movie obj,int idMov) {
-		//obj.setIdGen(idMov);
+	public void actualizarPelicula(Movie obj,int idMov) {
+		obj.setIdMovie(idMov);
 		repMovie.save(obj);  //SpringDataJPA
 	}
 	
-	public void eliminarGenero(int idMov) {
+	public void eliminarPelicula(int idMov) {
 		repMovie.deleteById(idMov); //SpringDataJPA
 	}
 
