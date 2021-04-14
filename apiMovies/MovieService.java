@@ -1,3 +1,6 @@
+/*** # Autor: Mtro. Christian Mauricio Castillo Estrada  (2021) # ***/
+/*** # Facultad de Negocios Campus IV de la UNACH  # ***/
+
 package app.cmce.Moviesapi.service.jpa;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
