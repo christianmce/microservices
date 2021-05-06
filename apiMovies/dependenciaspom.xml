@@ -23,3 +23,12 @@
 			<scope>test</scope>
 		</dependency>
 </dependencies>
+
+
+
+##--- Conector JDBC for PostgreSQL
+<dependency>
+    <groupId>org.postgresql</groupId>
+    <artifactId>postgresql</artifactId>
+    <version>42.2.2</version>
+</dependency>
