@@ -1,15 +1,22 @@
 ** Ejemplos para el manejo de error en el Controller
 
 @DeleteMapping("/{id}")
-    public void deletePost(@PathVariable("id") Integer id)
-    {
+public void deletePost(@PathVariable("id") Integer id)
+{
         Post post = postRepository.findById(id)
         		.orElseThrow(() -> new ResourceNotFoundException("No post found with id="+id));
         try {
-			postRepository.deleteById(post.getId());
-		} catch (Exception e) {
-			throw new PostDeletionException("Post with id="+id+" can't be deleted");
-		}        
+		postRepository.deleteById(post.getId());
+	} catch (Exception e) {
+		throw new PostDeletionException("Post with id="+id+" can't be deleted");
+	}        
+}
+
+@GetMapping(path = "/{userId}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+public ResponseEntity<UserRest> get(@PathVariable String userId) {
+        if (DataBase.USER_MAP.containsKey(userId))
+            return new ResponseEntity<>(DataBase.USER_MAP.get(userId), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 }
 
 
