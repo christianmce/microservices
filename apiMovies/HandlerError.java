@@ -20,4 +20,20 @@ public Comment getPostComment(@PathVariable("postId") Integer postId, @PathVaria
     			.orElseThrow(() -> new ResourceNotFoundException("No comment found with id="+commentId));
 }
 
+@PostMapping(consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
+produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+public ResponseEntity<UserRest> create(@Valid @RequestBody UserRest userRest) {
+    System.out.println(userRest);
+    userRest.setUserId("");
+    return new ResponseEntity<>(userRest, HttpStatus.OK);
+}
 
+
+@DeleteMapping(value="/users/{id}")
+ResponseEntity<String> delete(@PathVariable("id") @Min(1) int id) {
+    User user = userrepo.findById(id)
+                       .orElseThrow(()->new ResourceNotFoundException("User with ID :"+id+" Not Found!"));
+                
+    userrepo.deleteById(user.getId());
+    return ResponseEntity.ok().body("User deleted with success!");      
+}
