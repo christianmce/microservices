@@ -24,7 +24,7 @@ public ResponseEntity<List<Cliente>> mostrarTodos(){
 	
 ---------------------------------------------------------------------------------------------------------------------------------	
 @DeleteMapping("/{id}")
-public void deletePost(@PathVariable("id") Integer id)
+public void deletePost(@PathVariable("id") int idC)
 {
         Post post = postRepository.findById(id)
         		.orElseThrow(() -> new ResourceNotFoundException("No post found with id="+id));
