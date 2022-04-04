@@ -1,11 +1,13 @@
-** Ejemplos para el manejo de error en el Controller
-//Service...
+** Ejemplos para el manejo de error en las capas: Controller/Service
+//ClienteService.java ----------------------------------------------------------------------------------------------------------
 @Override
 public Optional<Cliente> consultarCliente(int idC) {
 	return Optional.ofNullable(repCliente.findById(idC).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"No fue encontrado")));	
 }
 
 
+
+---------------------------------------------------------------------------------------------------------------------------------
 @DeleteMapping("/{id}")
 public void deletePost(@PathVariable("id") Integer id)
 {
