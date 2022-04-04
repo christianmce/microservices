@@ -5,9 +5,24 @@ public Optional<Cliente> consultarCliente(int idC) {
 	return Optional.ofNullable(repCliente.findById(idC).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"No fue encontrado")));	
 }
 
-
+---------------------------------------------------------------------------------------------------------------------------------
+@GetMapping(path = "/clientes/{id}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+public Optional<Cliente> mostrarUno(@PathVariable("id") int idC){
+	return serviceLogNeg.consultarCliente(idC);
+}
 
 ---------------------------------------------------------------------------------------------------------------------------------
+@GetMapping("/clientes")
+public ResponseEntity<List<Cliente>> mostrarTodos(){
+	try {
+		return new ResponseEntity<>(serviceLogNeg.consultarLista(), HttpStatus.OK);
+	} catch (Exception e) {
+		return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+		
+}
+	
+---------------------------------------------------------------------------------------------------------------------------------	
 @DeleteMapping("/{id}")
 public void deletePost(@PathVariable("id") Integer id)
 {
@@ -17,24 +32,11 @@ public void deletePost(@PathVariable("id") Integer id)
 		postRepository.deleteById(post.getId());
 	} catch (Exception e) {
 		throw new PostDeletionException("Post with id="+id+" can't be deleted");
-	}        
+	}      
+	return ResponseEntity.ok().body("User deleted with success!");     
 }
 
-@GetMapping(path = "/{userId}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-public ResponseEntity<UserRest> get(@PathVariable String userId) {
-        if (DataBase.USER_MAP.containsKey(userId))
-            return new ResponseEntity<>(DataBase.USER_MAP.get(userId), HttpStatus.OK);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-}
-
-
-@GetMapping("/{postId}/comments/{commentId}")
-public Comment getPostComment(@PathVariable("postId") Integer postId, @PathVariable("commentId") Integer commentId)
-{
-    	return commentRepository.findById(commentId)
-    			.orElseThrow(() -> new ResourceNotFoundException("No comment found with id="+commentId));
-}
-
+---------------------------------------------------------------------------------------------------------------------------------	
 @PostMapping(consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
 produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
 public ResponseEntity<UserRest> create(@Valid @RequestBody UserRest userRest) {
@@ -43,12 +45,3 @@ public ResponseEntity<UserRest> create(@Valid @RequestBody UserRest userRest) {
     return new ResponseEntity<>(userRest, HttpStatus.OK);
 }
 
-
-@DeleteMapping(value="/users/{id}")
-ResponseEntity<String> delete(@PathVariable("id") @Min(1) int id) {
-    User user = userrepo.findById(id)
-                       .orElseThrow(()->new ResourceNotFoundException("User with ID :"+id+" Not Found!"));
-                
-    userrepo.deleteById(user.getId());
-    return ResponseEntity.ok().body("User deleted with success!");      
-}
