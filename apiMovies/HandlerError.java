@@ -1,4 +1,10 @@
 ** Ejemplos para el manejo de error en el Controller
+//Service...
+@Override
+public Optional<Cliente> consultarCliente(int idC) {
+	return Optional.ofNullable(repCliente.findById(idC).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"No fue encontrado")));	
+}
+
 
 @DeleteMapping("/{id}")
 public void deletePost(@PathVariable("id") Integer id)
