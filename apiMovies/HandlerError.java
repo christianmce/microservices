@@ -16,7 +16,7 @@ En el pom.xml añadir:
     <groupId>com.fasterxml.jackson.dataformat</groupId>
     <artifactId>jackson-dataformat-xml</artifactId>
 </dependency>
-
+https://www.appsdeveloperblog.com/return-xml-json-spring-mvc/
 ---------------------------------------------------------------------------------------------------------------------------------
 @GetMapping("/clientes")
 public ResponseEntity<List<Cliente>> mostrarTodos(){
