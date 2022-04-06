@@ -6,10 +6,16 @@ public Optional<Cliente> consultarCliente(int idC) {
 }
 
 ---------------------------------------------------------------------------------------------------------------------------------
-@GetMapping(path = "/clientes/{id}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+@GetMapping(path = "/clientes/{id}", produces = {MediaType.APPLICATION_XML_VALUE})
 public Optional<Cliente> mostrarUno(@PathVariable("id") int idC){
 	return serviceLogNeg.consultarCliente(idC);
 }
+
+En el pom.xml añadir:
+<dependency>
+    <groupId>com.fasterxml.jackson.dataformat</groupId>
+    <artifactId>jackson-dataformat-xml</artifactId>
+</dependency>
 
 ---------------------------------------------------------------------------------------------------------------------------------
 @GetMapping("/clientes")
