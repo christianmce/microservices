@@ -1,9 +1,16 @@
 <dependency>
-    		<groupId>io.jsonwebtoken</groupId>
-    		<artifactId>jjwt</artifactId>
-    		<version>0.9.1</version>
+    	<groupId>io.jsonwebtoken</groupId>
+    	<artifactId>jjwt</artifactId>
+    	<version>0.9.1</version>
 </dependency>
 <dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-security</artifactId>
 </dependency>
+
+--------------------------------------------------------------------------------------
+app.empresa.Config --> WebSecurityConfig.java
+app.empresa.Controller --> JwtAuthenticationController.java
+app.empresa.Entity --> User.java, JwtRequest.java y JwtResponse.java
+app.empresa.Security --> JwtAuthenticationEntryPoint.java, JwtRequestFilter.java y JwTTokenUtil.java
+app.empresa.Service --> jwtUsetDetailsService.java
