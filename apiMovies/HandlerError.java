@@ -1,42 +1,39 @@
 ** Ejemplos para el manejo de error en las capas: Controller/Service
-//ClienteService.java ----------------------------------------------------------------------------------------------------------
+//CategoriaService.java ----------------------------------------------------------------------------------------------------------
+import com.app.nomproyecto.exception.ResourceNotFoundException;
+
 @Override
-public Optional<Cliente> consultarCliente(int idC) {
-	return Optional.ofNullable(repCliente.findById(idC).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"No fue encontrado")));	
+public ResponseEntity<Categoria> consultarUno(int idCat) {
+	Categoria obj = repoCategoria.findById(idCat).orElseThrow(() -> new ResourceNotFoundException("No existe categoría con el Id :" + idCat));
+	return ResponseEntity.ok(obj);
 }
 
 ---------------------------------------------------------------------------------------------------------------------------------
-@GetMapping(path = "/clientes/{id}", produces = {MediaType.APPLICATION_XML_VALUE})
-public Optional<Cliente> mostrarUno(@PathVariable("id") int idC){
-	return serviceLogNeg.consultarCliente(idC);
-}
+//Es necesario crear un subpaquete de excepcion y añadir una nueva clase llamada ResourceNotFound
+package com.app.seminario.exception;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-En el pom.xml añadir:
-<dependency>
-    <groupId>com.fasterxml.jackson.dataformat</groupId>
-    <artifactId>jackson-dataformat-xml</artifactId>
-</dependency>
-https://www.appsdeveloperblog.com/return-xml-json-spring-mvc/
----------------------------------------------------------------------------------------------------------------------------------
-@GetMapping("/clientes")
-public ResponseEntity<List<Cliente>> mostrarTodos(){
-	try {
-		return new ResponseEntity<>(serviceLogNeg.consultarLista(), HttpStatus.OK);
-	} catch (Exception e) {
-		return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-	}
-		
-}
+@ResponseStatus(value = HttpStatus.NOT_FOUND)
+public class ResourceNotFoundException extends RuntimeException{
+	private static final long serialVersionUID = 1L;
 	
------------------------------------------------------------------------------------------------------------------------------------------------	
-EN EL CONTROLLER DEBE SER ASÍ ------>
+	public ResourceNotFoundException(String message) {
+		super(message);
+	}
+}	
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------	>>>>
+//EN LA CLASE CONTROLLER DEBE AÑADIR EL SIGUIENTE CODIGO:
 @DeleteMapping("/categorias/{id}")
 	public ResponseEntity<?> eliminar(@PathVariable("id") int idCat){
 		return lognegocioCatego.eliminarCategoria(idCat);        
 		
 }
 
-EN EL SERVICE COLOCAR LO SIGUIENTE:
+//EN LA CLASE DE SERVICE COLOCAR LO SIGUIENTE:
 @Override
 public ResponseEntity<Map<String, String>> eliminarCategoria(int idCat) {
 	Map<String, String> errorResponse = new HashMap<>();
