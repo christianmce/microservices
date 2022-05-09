@@ -28,26 +28,29 @@ public ResponseEntity<List<Cliente>> mostrarTodos(){
 		
 }
 	
----------------------------------------------------------------------------------------------------------------------------------	
-@DeleteMapping("/{id}")
-public void deletePost(@PathVariable("id") int idC)
-{
-        Post post = postRepository.findById(id)
-        		.orElseThrow(() -> new ResourceNotFoundException("No post found with id="+id));
-        try {
-		postRepository.deleteById(post.getId());
-	} catch (Exception e) {
-		throw new PostDeletionException("Post with id="+id+" can't be deleted");
-	}      
-	return ResponseEntity.ok().body("User deleted with success!");     
+-----------------------------------------------------------------------------------------------------------------------------------------------	
+EN EL CONTROLLER DEBE SER ASÍ ------>
+@DeleteMapping("/categorias/{id}")
+	public ResponseEntity<?> eliminar(@PathVariable("id") int idCat){
+		return lognegocioCatego.eliminarCategoria(idCat);        
+		
 }
 
----------------------------------------------------------------------------------------------------------------------------------	
-@PostMapping(consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
-produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-public ResponseEntity<UserRest> create(@Valid @RequestBody UserRest userRest) {
-    System.out.println(userRest);
-    userRest.setUserId("");
-    return new ResponseEntity<>(userRest, HttpStatus.OK);
+EN EL SERVICE COLOCAR LO SIGUIENTE:
+@Override
+public ResponseEntity<Map<String, String>> eliminarCategoria(int idCat) {
+		Map<String, String> errorResponse = new HashMap<>();
+		errorResponse.put("message", "Ese articulo no fue encontrado");
+	    errorResponse.put("status", HttpStatus.NOT_FOUND.toString());
+	    
+	    Map<String, String> errorResponse2 = new HashMap<>();
+		errorResponse2.put("message", "El articulo fue eliminado correctamente");
+	    errorResponse2.put("status", HttpStatus.OK.toString());
+	    
+		return repoCategoria.findById(idCat).map( p -> {
+					repoCategoria.deleteById(idCat);
+					return new ResponseEntity<>(errorResponse2, HttpStatus.OK);
+				})
+				.orElse(new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND));
 }
 
