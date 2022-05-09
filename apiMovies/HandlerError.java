@@ -1,4 +1,7 @@
-** Ejemplos para el manejo de error en las capas: Controller/Service
+//#### Ejemplos para el manejo de error en las capas: Controller/Service
+//Para ocultar el msg de trace en los response, añadirlo en el properties.
+server.error.include-stacktrace=never
+
 //CategoriaService.java ----------------------------------------------------------------------------------------------------------
 
 import com.app.nomproyecto.exception.ResourceNotFoundException;
