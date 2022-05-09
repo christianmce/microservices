@@ -39,18 +39,17 @@ EN EL CONTROLLER DEBE SER ASÍ ------>
 EN EL SERVICE COLOCAR LO SIGUIENTE:
 @Override
 public ResponseEntity<Map<String, String>> eliminarCategoria(int idCat) {
-		Map<String, String> errorResponse = new HashMap<>();
-		errorResponse.put("message", "Ese articulo no fue encontrado");
-	    errorResponse.put("status", HttpStatus.NOT_FOUND.toString());
+	Map<String, String> errorResponse = new HashMap<>();
+	errorResponse.put("message", "Ese articulo no fue encontrado");
+	errorResponse.put("status", HttpStatus.NOT_FOUND.toString());
 	    
-	    Map<String, String> errorResponse2 = new HashMap<>();
-		errorResponse2.put("message", "El articulo fue eliminado correctamente");
-	    errorResponse2.put("status", HttpStatus.OK.toString());
+	Map<String, String> errorResponse2 = new HashMap<>();
+	errorResponse2.put("message", "El articulo fue eliminado correctamente");
+	errorResponse2.put("status", HttpStatus.OK.toString());
 	    
-		return repoCategoria.findById(idCat).map( p -> {
+	return repoCategoria.findById(idCat).map( p -> {
 					repoCategoria.deleteById(idCat);
 					return new ResponseEntity<>(errorResponse2, HttpStatus.OK);
-				})
-				.orElse(new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND));
+				}).orElse(new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND));
 }
 
