@@ -10,6 +10,7 @@ public ResponseEntity<Categoria> consultarUno(int idCat) {
 	Categoria obj = repoCategoria.findById(idCat).orElseThrow(() -> new ResourceNotFoundException("No existe categoría con el Id :" + idCat));
 	return ResponseEntity.ok(obj);
 }
+
 ---------------------------------------------------------------------------------------------------------------------------------
 @GetMapping("/categorias/{id}")
 	public ResponseEntity<Categoria> localizar(@PathVariable("id") int idCat){	
@@ -31,8 +32,29 @@ public class ResourceNotFoundException extends RuntimeException{
 }	
 
 
-
 -----------------------------------------------------------------------------------------------------------------------------------------------	>>>>
+@Override
+public ResponseEntity<Categoria> consultarbyNombre(String nombre) {		
+	Categoria objcat = repoCategoria.findByNombre(nombre);
+	if (objcat==null) 
+		throw new ResourceNotFoundException("No existe categoría con el nombre :" + nombre);
+					
+	return ResponseEntity.ok(objcat);
+}
+
+
+-------------------------------------------------------------------- INSERTAR -----------------------------------------------------------------------	>>>>
+@Override
+public ResponseEntity<Map<String, String>> insertarCategoria(Categoria obj) {
+	Map<String, String> okResponse = new HashMap<>();
+	okResponse.put("message", "La Categoría se ha registrado correctamente");
+	okResponse.put("status", HttpStatus.CREATED.toString());
+	repoCategoria.save(obj);
+	return new ResponseEntity<>(okResponse,HttpStatus.CREATED);
+}
+
+
+--------------------------------------------------------------------- ELIMINAR-----------------------------------------------------------------------	>>>>
 //EN LA CLASE CONTROLLER DEBE AÑADIR EL SIGUIENTE CODIGO:
 @DeleteMapping("/categorias/{id}")
 	public ResponseEntity<?> eliminar(@PathVariable("id") int idCat){
@@ -52,8 +74,8 @@ public ResponseEntity<Map<String, String>> eliminarCategoria(int idCat) {
 	errorResponse2.put("status", HttpStatus.OK.toString());
 	    
 	return repoCategoria.findById(idCat).map( p -> {
-					repoCategoria.deleteById(idCat);
-					return new ResponseEntity<>(errorResponse2, HttpStatus.OK);
-				}).orElse(new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND));
+		repoCategoria.deleteById(idCat);
+		return new ResponseEntity<>(errorResponse2, HttpStatus.OK);
+	}).orElse(new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND));
 }
 
