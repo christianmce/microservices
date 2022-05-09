@@ -1,13 +1,17 @@
 ** Ejemplos para el manejo de error en las capas: Controller/Service
 //CategoriaService.java ----------------------------------------------------------------------------------------------------------
-import com.app.nomproyecto.exception.ResourceNotFoundException;
 
+import com.app.nomproyecto.exception.ResourceNotFoundException;
 @Override
 public ResponseEntity<Categoria> consultarUno(int idCat) {
 	Categoria obj = repoCategoria.findById(idCat).orElseThrow(() -> new ResourceNotFoundException("No existe categoría con el Id :" + idCat));
 	return ResponseEntity.ok(obj);
 }
-
+---------------------------------------------------------------------------------------------------------------------------------
+@GetMapping("/categorias/{id}")
+	public ResponseEntity<Categoria> localizar(@PathVariable("id") int idCat){	
+		return lognegocioCatego.consultarUno(idCat);
+	}
 ---------------------------------------------------------------------------------------------------------------------------------
 //Es necesario crear un subpaquete de excepcion y añadir una nueva clase llamada ResourceNotFound
 package com.app.seminario.exception;
